@@ -1,6 +1,6 @@
 import productModel from "./models/products.schema.js"
 
-export default class ProductMangerDB{
+export class ProductMangerDB{
 
   async getProduct(queryList){
       const {query, sort} = queryList
@@ -62,3 +62,4 @@ export default class ProductMangerDB{
       }
   }
 }
+

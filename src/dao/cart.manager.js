@@ -1,6 +1,6 @@
 import cartModel from "./models/cart.schema.js"
 
-export default class CartManagerDB{
+export class CartManagerDB{
 
   async getCart(){
       try{

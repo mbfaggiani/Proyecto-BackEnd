@@ -3,6 +3,7 @@ import local from 'passport-local';
 import GithubStrategy from 'passport-github2'
 import registroModel from '../dao/models/regist.schema.js'
 import { isValidPassword, createHash } from "../utils/criptografia.js"
+import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, GITHUB_CALLBACK_URL } from '../config/auth.config.js'
 
 
 const LocalStrategy = local.Strategy;
@@ -42,11 +43,10 @@ const initializePassport = () => {
         }
     }))
 
-    //registro con github
     passport.use('github', new GithubStrategy({
-        clientID: process.env.GITHUB_CLIENT_ID,
-        clientSecret: process.env.GITHUB_CLIENT_SECRET,
-        callbackURL: process.env.GITHUB_CALLBACK_URL
+        clientID: GITHUB_CLIENT_ID,
+        clientSecret: GITHUB_CLIENT_SECRET,
+        callbackURL: GITHUB_CALLBACK_URL
     }, async (accessToken, refreshToken, profile, done) => {
         try {
             console.log(profile)

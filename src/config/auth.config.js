@@ -1,7 +1,19 @@
-export const CLIENTID_GIT ='Iv1.3fa4c9e6d2d16481'
+import * as dotenv from 'dotenv'
+
+dotenv.config({
+    path:'src/config/.env'
+}) 
+
+export const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID
   
-export const CLIENTSCR_GIT = "3f50e8a6465ab103205546dab48ef9527a743fb3";
+export const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET
 
-export const JWT_PRIVATE_KEY = 'jwt_private_key'
+export const GITHUB_CALLBACK_URL = process.env.GITHUB_CALLBACK_URL
 
-export const COOKIE_SECRET = 'cookie_secret'
+export const JWT_PRIVATE_KEY = process.env.JWT_PRIVATE_KEY
+
+export const COOKIE_SECRET = process.env.COOKIE_SECRET
+
+export const COOKIE_NAME = process.env.COOKIE_NAME
+
+export const SESSION_SECRET = process.env.SESSION_SECRET

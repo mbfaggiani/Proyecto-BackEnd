@@ -3,13 +3,13 @@ import { engine } from 'express-handlebars'
 import session from 'express-session'
 import cookieParser from "cookie-parser"
 import passport from 'passport'
-import initializePassport from '../config/passport.config.js'
+import initializePassport from '../middleware/passport.config.js'
 import cors from 'cors';
 
 import { PORT } from '../config/servidor.config.js'
 import { conectar } from '../database/mongoose.js'
 import { productsRouter } from '../routers/products.router.js'
-import { cartRouter } from '../routers/carts.router.js'
+import { cartsRouter } from '../routers/carts.router.js'
 
 await conectar();
 
@@ -26,7 +26,7 @@ app.use(cookieParser())
 app.use(session)
 
 app.use('/api/products', productsRouter)
-app.use('/api/carts', cartRouter)
+app.use('/api/carts', cartsRouter)
 
 initializePassport()
 app.use(passport.initialize())

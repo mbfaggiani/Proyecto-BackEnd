@@ -1,66 +1,29 @@
-import { Router } from "express";
-import CartManagerDB from "../dao/cart.manager.js";
+import express, { Router } from 'express'
+import {
+  updateCartProducts,
+  getCart,
+  clearCartProducts,
+  createNewCart,
+  getAllCarts,
+  deleteCartProduct
+} from '../controllers/cart.controller.js'
+import { hasSession } from '../middleware/sessions.js'
 
-export const cartRouter = Router();
-const cartManager = new CartManagerDB.CartManager();
+export const cartsRouter = Router()
 
-cartRouter.get('/', async (req, res) => {
-    try{
-        const cart = await cartManager.getCart()
-        res.send(cart)
-    }
-    catch (err){
-        res.status(500).send(err.message)
-    }
-})
+cartsRouter.use(express.json())
 
+cartsRouter
+  .route('/:cid/product/:pid')
+  .put(hasSession, updateCartProducts)
+  .delete(hasSession, deleteCartProduct)
 
-cartRouter.post('/', async (req, res) => {
-    try{
-        const response = await cartManager.createCart([])
-        res.send(response)
-    }
-    catch (err){
-        res.status(500).send(err.message)
-    }
-})
+cartsRouter
+  .route('/:cid')
+  .get(hasSession, getCart)
+  .delete(hasSession, clearCartProducts)
 
-cartRouter.put('/:cid/products/:pid', async (req, res) => {
-    const {cid} = req.params;
-    const {pid} = req.params;
-    let {quantity} = req.body
-    try {
-        const response = await cartManager.addProductToCart(cid, pid, quantity);
-        res.send(response);
-      } catch (err) {
-        res.status(500).send(err.message);
-      }
-})
-cartRouter.delete('/:cid/products/:pid', async (req, res) => {
-    const {cid} = req.params;
-    const {pid} = req.params;
-
-    try {
-        const response = await cartManager.removeProductFromCart(cid, pid);
-        res.send({
-            message: 'Product deleted successfully',
-            id: pid
-        })
-      } catch (err) {
-        res.status(500).send(err.message);
-      }
-})
-
-cartRouter.delete('/:cid' , async (req,res)=>{
-    const {cid} = req.params;
-    try {
-        const response = await cartManager.deleteAllProductCart(cid);
-        res.send({
-            message: 'Cart deleted successfully',
-            id: cid
-        })
-    }
-    catch (err) {
-        req.status(500).send(err.message)
-    }
-})
+cartsRouter
+  .route('/')
+  .post(hasSession, createNewCart)
+  .get(hasSession, getAllCarts)

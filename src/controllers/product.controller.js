@@ -51,10 +51,20 @@ const createProduct = async (req, res, next) => {
   }
 }
 
+const getProductsMocked = async (req, res, next) => {
+  try {
+    const products = await mockingProducts();
+    res.status(200).json(products);
+  } catch (error) {
+    next(error.message);
+  }
+}
+
 export {
   getProducts,
   updateProduct,
   deleteProduct,
   getAllProducts,
-  createProduct
+  createProduct,
+  getProductsMocked
 }

@@ -1,4 +1,5 @@
-import productModel from "./models/products.schema.js"
+import productModel from "./models/products.schema.js";
+import faker from "@faker-js/faker"
 
 export class ProductMangerDB{
 
@@ -60,6 +61,24 @@ export class ProductMangerDB{
       catch (err) {
           throw err;
       }
+  }
+
+  async mockingProducts() {
+    const mockingProduct = [];
+    for (let i = 1; i <= 100; i++) {
+      const product = new productModel({
+        title: faker.commerce.productName(),
+        description: faker.commerce.productDescription(),
+        price: faker.datatype.number({ min: 1, max: 100 }),
+        thumbnail: faker.image.imageUrl(),
+        code: `code${i}`,
+        stock: faker.datatype.number({ min: 1, max: 100 })
+      });
+  
+      mockingProduct.push(product.dto());
+    }
+  
+    return mockingProduct;
   }
 }
 
